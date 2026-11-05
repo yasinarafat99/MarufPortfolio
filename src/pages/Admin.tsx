@@ -43,11 +43,11 @@ export default function Admin() {
     await supabase.auth.signOut();
   };
 
-  if (initialLoad) return <div className="flex h-screen items-center justify-center bg-[#050608] text-amber-400"><Loader2 className="w-8 h-8 animate-spin" /></div>;
+  if (initialLoad) return <div className="flex h-dvh items-center justify-center bg-[#050608] text-amber-400"><Loader2 className="w-8 h-8 animate-spin" /></div>;
 
   if (!session) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#050608] p-4 font-sans">
+      <div className="flex h-dvh items-center justify-center bg-[#050608] p-4 font-sans">
         <div className="w-full max-w-md bg-[#0a0c10] p-8 rounded-3xl border border-amber-500/30 shadow-[0_0_40px_rgba(245,158,11,0.15)] relative overflow-hidden">
           <div className="text-center mb-8 relative z-10">
             <div className="w-14 h-14 bg-gradient-to-br from-amber-500/20 to-transparent rounded-2xl flex items-center justify-center mx-auto mb-5 border border-amber-500/40">
@@ -67,7 +67,8 @@ export default function Admin() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#050608] text-white font-sans selection:bg-amber-500 selection:text-black">
+    // h-screen এর বদলে h-dvh ব্যবহার করা হয়েছে যাতে মোবাইলের অ্যাড্রেস বার অনুযায়ী হাইট পারফেক্ট থাকে
+    <div className="flex h-dvh w-full overflow-hidden bg-[#050608] text-white font-sans selection:bg-amber-500 selection:text-black">
       
       {/* লগআউট মোডাল */}
       <AnimatePresence>
@@ -106,18 +107,18 @@ export default function Admin() {
         </div>
       </aside>
 
-      {/* মেইন কন্টেন্ট */}
-      <main className="flex-1 flex flex-col min-w-0 h-screen bg-[#050608] relative overflow-hidden">
+      {/* মেইন কন্টেন্ট - এখানে h-screen রিমুভ করা হয়েছে যাতে প্যারেন্টের হাইট নেয় */}
+      <main className="flex-1 flex flex-col min-w-0 relative bg-[#050608] overflow-hidden">
         
-        {/* মোবাইল হেডার */}
+        {/* মোবাইল হেডার (Shrink-0 দিয়ে ফিক্সড করা হয়েছে) */}
         <header className="md:hidden flex items-center justify-between p-4 bg-[#0a0c10] border-b border-amber-500/20 shrink-0 z-50">
           <h1 className="text-base font-black text-white">অ্যাডমিন প্যানেল</h1>
           <button onClick={() => setLogoutModal(true)} className="p-2 text-slate-400 hover:text-red-400 cursor-pointer"><LogOut className="w-4 h-4" /></button>
         </header>
 
-        {/* স্পিনার ছাড়া + অ্যানিমেশনসহ কন্টেন্ট এরিয়া */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth">
-          <div className="max-w-4xl mx-auto pb-24 md:pb-10">
+        {/* কন্টেন্ট এরিয়া - শুধুমাত্র এই বক্সটি স্ক্রল হবে */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth pb-8">
+          <div className="max-w-4xl mx-auto">
             
             <div className={activeTab === 'profile' ? 'block' : 'hidden'}>
               <motion.div initial={{ opacity: 0, y: 15 }} animate={activeTab === 'profile' ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }} transition={{ duration: 0.4, ease: "easeOut" }}>
@@ -146,7 +147,7 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* মোবাইল বটম নেভিগেশন */}
+        {/* মোবাইল বটম নেভিগেশন (Shrink-0 দিয়ে ফিক্সড করা হয়েছে) */}
         <nav className="md:hidden shrink-0 bg-[#0a0c10]/98 backdrop-blur-xl border-t border-amber-500/30 flex items-center justify-around p-2 z-50">
           <button onClick={() => setActiveTab('profile')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-200 cursor-pointer ${activeTab === 'profile' ? 'text-amber-400 scale-110' : 'text-slate-400 hover:text-slate-200'}`}><User className="w-5 h-5" /><span className="text-[10px] font-bold">প্রোফাইল</span></button>
           <button onClick={() => setActiveTab('videos')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-200 cursor-pointer ${activeTab === 'videos' ? 'text-amber-400 scale-110' : 'text-slate-400 hover:text-slate-200'}`}><Film className="w-5 h-5" /><span className="text-[10px] font-bold">ভিডিও</span></button>
