@@ -67,7 +67,6 @@ export default function Admin() {
   }
 
   return (
-    // h-screen এর বদলে h-dvh ব্যবহার করা হয়েছে যাতে মোবাইলের অ্যাড্রেস বার অনুযায়ী হাইট পারফেক্ট থাকে
     <div className="flex h-dvh w-full overflow-hidden bg-[#050608] text-white font-sans selection:bg-amber-500 selection:text-black">
       
       {/* লগআউট মোডাল */}
@@ -81,15 +80,15 @@ export default function Admin() {
               <h3 className="text-xl font-black text-white text-center mb-2">লগআউট কনফার্মেশন</h3>
               <p className="text-slate-400 text-sm text-center mb-8">আপনি কি নিশ্চিত যে আপনি অ্যাডমিন প্যানেল থেকে বের হয়ে যেতে চান?</p>
               <div className="flex gap-3">
-                <button onClick={() => setLogoutModal(false)} className="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-white/5 hover:bg-white/10 text-white cursor-pointer">বাতিল</button>
-                <button onClick={executeLogout} className="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 cursor-pointer">হ্যাঁ, লগআউট</button>
+                <button onClick={() => setLogoutModal(false)} className="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-white/5 hover:bg-white/10 text-white cursor-pointer transition-colors">বাতিল</button>
+                <button onClick={executeLogout} className="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 cursor-pointer transition-colors">হ্যাঁ, লগআউট</button>
               </div>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* সাইডবার (Desktop) */}
+      {/* সাইডবার (Desktop View) */}
       <aside className="hidden md:flex w-64 flex-col justify-between bg-[#0a0c10] border-r border-amber-500/20 shrink-0 z-50">
         <div className="p-6">
           <h1 className="text-lg font-black text-white mb-8">অ্যাডমিন প্যানেল</h1>
@@ -107,17 +106,12 @@ export default function Admin() {
         </div>
       </aside>
 
-      {/* মেইন কন্টেন্ট - এখানে h-screen রিমুভ করা হয়েছে যাতে প্যারেন্টের হাইট নেয় */}
+      {/* মেইন কন্টেন্ট এরিয়া */}
       <main className="flex-1 flex flex-col min-w-0 relative bg-[#050608] overflow-hidden">
         
-        {/* মোবাইল হেডার (Shrink-0 দিয়ে ফিক্সড করা হয়েছে) */}
-        <header className="md:hidden flex items-center justify-between p-4 bg-[#0a0c10] border-b border-amber-500/20 shrink-0 z-50">
-          <h1 className="text-base font-black text-white">অ্যাডমিন প্যানেল</h1>
-          <button onClick={() => setLogoutModal(true)} className="p-2 text-slate-400 hover:text-red-400 cursor-pointer"><LogOut className="w-4 h-4" /></button>
-        </header>
-
-        {/* কন্টেন্ট এরিয়া - শুধুমাত্র এই বক্সটি স্ক্রল হবে */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth pb-8">
+        {/* কন্টেন্ট বক্স (Mobile-এ অতিরিক্ত হেডার রিমুভ করে স্পেস ক্লিয়ার করা হয়েছে) */}
+        {/* pb-28 দেওয়া হয়েছে যাতে Floating Dock এর নিচে কন্টেন্ট লুকিয়ে না যায় */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth pb-28 md:pb-8">
           <div className="max-w-4xl mx-auto">
             
             <div className={activeTab === 'profile' ? 'block' : 'hidden'}>
@@ -147,12 +141,34 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* মোবাইল বটম নেভিগেশন (Shrink-0 দিয়ে ফিক্সড করা হয়েছে) */}
-        <nav className="md:hidden shrink-0 bg-[#0a0c10]/98 backdrop-blur-xl border-t border-amber-500/30 flex items-center justify-around p-2 z-50">
-          <button onClick={() => setActiveTab('profile')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-200 cursor-pointer ${activeTab === 'profile' ? 'text-amber-400 scale-110' : 'text-slate-400 hover:text-slate-200'}`}><User className="w-5 h-5" /><span className="text-[10px] font-bold">প্রোফাইল</span></button>
-          <button onClick={() => setActiveTab('videos')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-200 cursor-pointer ${activeTab === 'videos' ? 'text-amber-400 scale-110' : 'text-slate-400 hover:text-slate-200'}`}><Film className="w-5 h-5" /><span className="text-[10px] font-bold">ভিডিও</span></button>
-          <button onClick={() => setActiveTab('designs')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-200 cursor-pointer ${activeTab === 'designs' ? 'text-amber-400 scale-110' : 'text-slate-400 hover:text-slate-200'}`}><Palette className="w-5 h-5" /><span className="text-[10px] font-bold">ডিজাইন</span></button>
-          <button onClick={() => setActiveTab('settings')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-200 cursor-pointer ${activeTab === 'settings' ? 'text-amber-400 scale-110' : 'text-slate-400 hover:text-slate-200'}`}><Settings className="w-5 h-5" /><span className="text-[10px] font-bold">সেটিংস</span></button>
+        {/* 
+          Premium iOS Style Floating Dock (Mobile View)
+          এটি স্ক্রিনের নিচে ফিক্সড হয়ে ভাসতে থাকবে, দেখতে একদম মডার্ন অ্যাপের মতো লাগবে।
+        */}
+        <nav className="md:hidden fixed bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-[400px] bg-[#0a0c10]/85 backdrop-blur-2xl border border-amber-500/25 rounded-2xl flex items-center justify-between px-3 py-2 z-50 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
+          <button onClick={() => setActiveTab('profile')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'profile' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
+            <User className="w-5 h-5" />
+          </button>
+          
+          <button onClick={() => setActiveTab('videos')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'videos' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
+            <Film className="w-5 h-5" />
+          </button>
+          
+          <button onClick={() => setActiveTab('designs')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'designs' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
+            <Palette className="w-5 h-5" />
+          </button>
+          
+          <button onClick={() => setActiveTab('settings')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'settings' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
+            <Settings className="w-5 h-5" />
+          </button>
+
+          {/* ডিভাইডার */}
+          <div className="w-[1px] h-8 bg-slate-700/50 mx-1"></div>
+
+          {/* লগআউট বাটন (ডানপাশে ফিক্সড) */}
+          <button onClick={() => setLogoutModal(true)} className="flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer text-red-500/80 hover:text-red-400 hover:scale-110">
+            <LogOut className="w-5 h-5" />
+          </button>
         </nav>
       </main>
     </div>
