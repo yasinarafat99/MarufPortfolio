@@ -1,158 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DESIGNER MARUF</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-  <!-- Admin Sidebar -->
-  <div class="admin-side" id="adminSide">
-    <div class="admin-side-header">
-      <b style="color:#FFC94A">🔒 Admin Panel</b>
-      <button style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;cursor:pointer" onclick="closeAdminPanel()">✕</button>
-    </div>
-    
-    <div class="admin-tabs">
-      <button class="admin-tab-btn active" id="atab-video" onclick="switchAdminTab('video')">🎬 VIDEO</button>
-      <button class="admin-tab-btn" id="atab-graphics" onclick="switchAdminTab('graphics')">🖼️ GRAPHICS</button>
-      <button class="admin-tab-btn" id="atab-contact" onclick="switchAdminTab('contact')">📞 CONTACT</button>
-    </div>
-
-    <!-- Admin Video Panel -->
-    <div class="admin-tab-panel active" id="apanel-video">
-      <p style="color:#FFC94A;font-size:13px;font-weight:800">👤 PROFILE CHANGE</p>
-      <input type="file" id="profileInput" accept="image/*" class="input" style="margin-top:8px">
-      <button class="btn btn-dark" onclick="changeProfile()" style="width:100%;margin-bottom:16px">Change Profile Photo</button>
-      
-      <p style="color:#FFC94A;font-size:13px;font-weight:800">🎬 VIDEO ADD</p>
-      <input id="vLink" class="input" placeholder="YouTube Link - https://youtu.be/...">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-        <input id="vTitle" class="input" placeholder="Title">
-        <input id="vCat" class="input" placeholder="Category">
-      </div>
-      <button class="btn btn-gold" onclick="addVideo()" style="width:100%">+ ADD VIDEO</button>
-      <div id="adminVideoList" style="margin-top:10px"></div>
-    </div>
-
-    <!-- Admin Graphics Panel -->
-    <div class="admin-tab-panel" id="apanel-graphics">
-      <p style="color:#FFC94A;font-size:13px;font-weight:800">🖼️ BULK GRAPHICS - 10/12 একসাথে</p>
-      <p style="color:#666;font-size:10px;margin-bottom:10px">Ctrl চেপে অনেকগুলা সিলেক্ট করো</p>
-      <input type="file" id="photoInput" accept="image/*" multiple class="input">
-      <button class="btn btn-gold" onclick="addPhoto()" style="width:100%">+ ADD ALL SELECTED</button>
-      <div id="adminPhotoList" style="margin-top:10px"></div>
-    </div>
-
-    <!-- Admin Contact Panel -->
-    <div class="admin-tab-panel" id="apanel-contact">
-      <p style="color:#FFC94A;font-size:13px;font-weight:800">📞 CONTACT ADD</p>
-      <select id="cType" class="select">
-        <option value="phone">📞 Phone</option>
-        <option value="whatsapp">💬 WhatsApp</option>
-        <option value="facebook">📘 Facebook</option>
-        <option value="instagram">📸 Instagram</option>
-        <option value="gmail">✉️ Gmail</option>
-        <option value="youtube">▶️ YouTube</option>
-        <option value="tiktok">🎵 TikTok</option>
-        <option value="telegram">✈️ Telegram</option>
-        <option value="linkedin">💼 LinkedIn</option>
-        <option value="behance">🎨 Behance</option>
-        <option value="website">🌐 Website</option>
-      </select>
-      <input id="cLabel" class="input" placeholder="Label: Personal">
-      <input id="cValue" class="input" placeholder="017xxxxxxxx or https://...">
-      <button class="btn btn-gold" onclick="addContact()" style="width:100%">+ ADD CONTACT</button>
-      <div id="adminContactList" style="margin-top:12px"></div>
-    </div>
-  </div>
-
-  <!-- Main Content Wrapper -->
-  <div id="mainWrapper">
-    <div class="top-bar">
-      <div class="logo">DESIGNER <span> MARUF</span></div>
-      <div class="nav-skills">
-        <b>VIDEO EDITING</b> <b>GRAPHIC DESIGN</b> <b>MOTION GRAPHICS</b> <b>DIGITAL MARKETING</b>
-      </div>
-    </div>
-
-    <div class="hero">
-      <div class="profile-wrap">
-        <div class="profile-card">
-          <img id="profileImg" class="profile-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600" alt="Maruf Siddique">
-          <svg class="border-light-svg" viewBox="0 0 316 396" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="goldRun" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="transparent"/>
-                <stop offset="35%" stop-color="#FFC94A"/>
-                <stop offset="50%" stop-color="#FFFFFF"/>
-                <stop offset="65%" stop-color="#FFD700"/>
-                <stop offset="100%" stop-color="transparent"/>
-              </linearGradient>
-            </defs>
-            <rect x="2" y="2" width="312" height="392" rx="26" ry="26"></rect>
-          </svg>
-        </div>
-      </div>
-
-      <h1>DESIGNER <span>MARUF</span></h1>
-      <div class="hero-subtitle">
-        <h2>Professional <span>Video Editor</span> & <span>Motion Designer</span></h2>
-        <p>Crafting cinematic visuals, dynamic motion graphics, compelling stories & <span style="color:#FFC94A;font-weight:600">Digital Marketing</span> solutions that elevate your brand.</p>
-      </div>
-
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="scrollToSec('video-sec')">VIDEO</button>
-        <button class="tab-btn" onclick="scrollToSec('graphics-sec')">GRAPHICS DESIGN</button>
-        <button class="tab-btn" onclick="scrollToSec('contact-sec')">CONTACT</button>
-      </div>
-    </div>
-
-    <div class="section">
-      <div id="video-sec" style="scroll-margin-top:90px">
-        <div class="sec-h">Selected Work - Videos</div>
-        <div class="videos" id="videoGrid"></div>
-      </div>
-
-      <div id="graphics-sec" style="scroll-margin-top:90px">
-        <div class="sec-h">Graphics Design Work</div>
-        <div class="photo-grid" id="photoGrid"></div>
-      </div>
-
-      <div class="contact" id="contact-sec">
-        <h3>Contact Me</h3>
-        <div class="contact-list" id="contactList"></div>
-      </div>
-      <!-- Admin Trigger Button Removed From Here -->
-    </div>
-  </div>
-
-  <!-- Photo Lightbox Modal -->
-  <div class="lightbox" id="photoLightbox" onclick="closePhotoLightbox()">
-    <button class="lightbox-close" onclick="closePhotoLightbox()">✕</button>
-    <button class="lightbox-nav lightbox-prev" onclick="event.stopPropagation();prevPhoto()">‹</button>
-    <img id="lightboxImg" class="lightbox-img" onclick="event.stopPropagation()" src="" alt="Preview">
-    <button class="lightbox-nav lightbox-next" onclick="event.stopPropagation();nextPhoto()">›</button>
-  </div>
-
-  <!-- Admin Login Modal -->
-  <div class="admin-modal" id="adminLoginModal" onclick="closeAdminLogin()">
-    <div class="admin-login-box" onclick="event.stopPropagation()">
-      <button class="close-x" onclick="closeAdminLogin()">✕</button>
-      <h2 style="color:#FFC94A;margin-bottom:8px">Admin Login</h2>
-      <div style="position:relative">
-        <input type="password" id="adminPass" class="admin-input" placeholder="Password">
-        <button class="eye-btn" style="position:absolute;right:8px;top:8px" onclick="togglePass()" id="eyeBtn">👁️</button>
-      </div>
-      <button class="btn btn-gold" style="width:100%" onclick="checkAdminPass()">Login</button>
-      <p id="loginError" style="color:#ff4444;font-size:12px;margin-top:10px;display:none">ভুল পাসওয়ার্ড!</p>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graphic Designer - Creative Visualizer & Video Editor</title>
+    <meta name="description" content="Professional portfolio of Noman Hossain showcasing video editing projects, reels, motion graphics, and audience retention visualization." />
+    <meta property="og:title" content="Noman Hossain - Creative Visualizer & Video Editor" />
+    <meta property="og:description" content="Professional portfolio of Noman Hossain showcasing video editing projects, reels, motion graphics, and audience retention visualization." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/nbr-logo.svg" />
+    <!-- High Performance Preload for critical hero assets -->
+    <link rel="preload" as="image" href="/nbr-logo.svg" fetchpriority="high" />
+    <link rel="preload" as="image" href="/farabi-avatar.png" fetchpriority="high" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#050608] text-slate-100 antialiased selection:bg-[#f59e0b] selection:text-black">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
+
