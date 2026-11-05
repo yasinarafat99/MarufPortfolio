@@ -7,6 +7,7 @@ export interface ProfileData {
   whatsapp: string;
   location: string;
   defaultAvatar: string;
+  avatar_url?: string;
   socials: {
     youtube: string;
     facebook: string;
@@ -55,18 +56,18 @@ export interface GraphicDesignProject {
 }
 
 export const profileData: ProfileData = {
-  name: "গ্রাফিক ডিজাইনার",
-  nameEn: "Graphic Designer",
+  name: "ডিজাইনার মারুফ",
+  nameEn: "Designer Maruf",
   bio: "উচ্চমানের ভিডিও এডিটিং ও ভিজ্যুয়াল স্টোরিটেলিংয়ের মাধ্যমে ব্র্যান্ড ও ক্রিয়েটরদের কাজকে অনন্য রূপ দেই।",
   bioEn: "Transforming footage into captivating, high-retention video stories for creators and brands.",
-  email: "nomanhossain517@gmail.com",
-  whatsapp: "+8801309465316",
-  location: "Jurain, New Wasa Road, Kadamtali, Dhaka-1204",
+  email: "marufsiddique4024@gmail.com",
+  whatsapp: "+8801924260179",
+  location: "Agargaon, Sher-e-Bangla Nagar, Dhaka-1207",
   defaultAvatar: "/noman-hero.png",
   socials: {
-    youtube: "https://youtube.com",
-    facebook: "https://www.facebook.com/ifran.hossain.392",
-    instagram: "https://www.instagram.com/nomanhossain392/?hl=en#",
+    youtube: "https://www.youtube.com/@MarufSiddique4024",
+    facebook: "https://www.facebook.com/msmaruf421",
+    instagram: "https://www.instagram.com/",
     linkedin: "https://linkedin.com"
   }
 };

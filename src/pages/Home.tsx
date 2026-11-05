@@ -1,5 +1,6 @@
 // src/pages/Home.tsx
 import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import BackgroundGrid from '../components/BackgroundGrid';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
@@ -34,6 +35,22 @@ export default function Home() {
     localStorage.setItem('noman_portfolio_lang', nextLang);
     document.documentElement.lang = nextLang;
   };
+
+
+
+  // ফ্রন্টএন্ডে ডেটাবেসের প্রোফাইল রাখার স্টেট
+  const [dbProfile, setDbProfile] = useState<any>(null);
+
+  // Supabase থেকে profiles টেবিলের ডাটা লোড করা
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const { data } = await supabase.from('profiles').select('*').maybeSingle();
+      if (data) {
+        setDbProfile(data);
+      }
+    };
+    fetchProfileData();
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -85,7 +102,7 @@ export default function Home() {
       <Navbar lang={lang} onToggleLang={toggleLang} profile={profile} />
       
       <main id="main-content" className="relative z-10">
-        <Hero lang={lang} avatarUrl={avatarUrl} profile={profile} />
+        <Hero lang={lang} avatarUrl={dbProfile?.avatar_url || ''} profile={dbProfile || profile} />
         <PortfolioSection lang={lang} />
         <Expertise lang={lang} />
         <Education lang={lang} />
