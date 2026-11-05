@@ -21,13 +21,8 @@ export default function Admin() {
   const [logoutModal, setLogoutModal] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setInitialLoad(false);
-    });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
+    supabase.auth.getSession().then(({ data: { session } }) => { setSession(session); setInitialLoad(false); });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => { setSession(session); });
     return () => subscription.unsubscribe();
   }, []);
 
@@ -38,10 +33,7 @@ export default function Admin() {
     setLoading(false);
   };
 
-  const executeLogout = async () => {
-    setLogoutModal(false);
-    await supabase.auth.signOut();
-  };
+  const executeLogout = async () => { setLogoutModal(false); await supabase.auth.signOut(); };
 
   if (initialLoad) return <div className="flex h-dvh items-center justify-center bg-[#050608] text-amber-400"><Loader2 className="w-8 h-8 animate-spin" /></div>;
 
@@ -50,9 +42,7 @@ export default function Admin() {
       <div className="flex h-dvh items-center justify-center bg-[#050608] p-4 font-sans">
         <div className="w-full max-w-md bg-[#0a0c10] p-8 rounded-3xl border border-amber-500/30 shadow-[0_0_40px_rgba(245,158,11,0.15)] relative overflow-hidden">
           <div className="text-center mb-8 relative z-10">
-            <div className="w-14 h-14 bg-gradient-to-br from-amber-500/20 to-transparent rounded-2xl flex items-center justify-center mx-auto mb-5 border border-amber-500/40">
-              <Lock className="w-6 h-6 text-amber-400" />
-            </div>
+            <div className="w-14 h-14 bg-gradient-to-br from-amber-500/20 to-transparent rounded-2xl flex items-center justify-center mx-auto mb-5 border border-amber-500/40"><Lock className="w-6 h-6 text-amber-400" /></div>
             <h2 className="text-2xl font-black text-white">অ্যাডমিন প্যানেল</h2>
           </div>
           {error && <div className="bg-red-500/10 text-red-400 px-4 py-3 rounded-xl mb-5 text-center text-sm">{error}</div>}
@@ -74,9 +64,7 @@ export default function Admin() {
         {logoutModal && (
           <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-[#050608]/80 backdrop-blur-sm">
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-sm bg-[#0a0c10] border border-amber-500/20 rounded-3xl p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-              <div className="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center mb-5 mx-auto border border-red-500/20">
-                <LogOut className="w-6 h-6 text-red-400" />
-              </div>
+              <div className="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center mb-5 mx-auto border border-red-500/20"><LogOut className="w-6 h-6 text-red-400" /></div>
               <h3 className="text-xl font-black text-white text-center mb-2">লগআউট কনফার্মেশন</h3>
               <p className="text-slate-400 text-sm text-center mb-8">আপনি কি নিশ্চিত যে আপনি অ্যাডমিন প্যানেল থেকে বের হয়ে যেতে চান?</p>
               <div className="flex gap-3">
@@ -109,9 +97,11 @@ export default function Admin() {
       {/* মেইন কন্টেন্ট এরিয়া */}
       <main className="flex-1 flex flex-col min-w-0 relative bg-[#050608] overflow-hidden">
         
-        {/* কন্টেন্ট বক্স (Mobile-এ অতিরিক্ত হেডার রিমুভ করে স্পেস ক্লিয়ার করা হয়েছে) */}
-        {/* pb-28 দেওয়া হয়েছে যাতে Floating Dock এর নিচে কন্টেন্ট লুকিয়ে না যায় */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth pb-28 md:pb-8">
+        {/* 
+          মেইন স্ক্রল কন্টেইনার
+          বিঃদ্রঃ: এখান থেকে ডাবল হেডার পুরোপুরি রিমুভ করা হয়েছে!
+        */}
+        <div className="flex-1 overflow-y-auto relative scroll-smooth pb-28 md:pb-8">
           <div className="max-w-4xl mx-auto">
             
             <div className={activeTab === 'profile' ? 'block' : 'hidden'}>
@@ -120,19 +110,19 @@ export default function Admin() {
               </motion.div>
             </div>
 
-            <div className={activeTab === 'videos' ? 'block' : 'hidden'}>
+            <div className={activeTab === 'videos' ? 'block p-4 sm:p-6 lg:p-8 pt-6' : 'hidden'}>
               <motion.div initial={{ opacity: 0, y: 15 }} animate={activeTab === 'videos' ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }} transition={{ duration: 0.4, ease: "easeOut" }}>
                 <AdminVideos />
               </motion.div>
             </div>
 
-            <div className={activeTab === 'designs' ? 'block' : 'hidden'}>
+            <div className={activeTab === 'designs' ? 'block p-4 sm:p-6 lg:p-8 pt-6' : 'hidden'}>
               <motion.div initial={{ opacity: 0, y: 15 }} animate={activeTab === 'designs' ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }} transition={{ duration: 0.4, ease: "easeOut" }}>
                 <AdminDesigns />
               </motion.div>
             </div>
 
-            <div className={activeTab === 'settings' ? 'block' : 'hidden'}>
+            <div className={activeTab === 'settings' ? 'block p-4 sm:p-6 lg:p-8 pt-6' : 'hidden'}>
               <motion.div initial={{ opacity: 0, y: 15 }} animate={activeTab === 'settings' ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }} transition={{ duration: 0.4, ease: "easeOut" }}>
                 <AdminSettings />
               </motion.div>
@@ -141,34 +131,14 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* 
-          Premium iOS Style Floating Dock (Mobile View)
-          এটি স্ক্রিনের নিচে ফিক্সড হয়ে ভাসতে থাকবে, দেখতে একদম মডার্ন অ্যাপের মতো লাগবে।
-        */}
+        {/* Floating Dock (Mobile View) */}
         <nav className="md:hidden fixed bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-[400px] bg-[#0a0c10]/85 backdrop-blur-2xl border border-amber-500/25 rounded-2xl flex items-center justify-between px-3 py-2 z-50 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
-          <button onClick={() => setActiveTab('profile')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'profile' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
-            <User className="w-5 h-5" />
-          </button>
-          
-          <button onClick={() => setActiveTab('videos')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'videos' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
-            <Film className="w-5 h-5" />
-          </button>
-          
-          <button onClick={() => setActiveTab('designs')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'designs' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
-            <Palette className="w-5 h-5" />
-          </button>
-          
-          <button onClick={() => setActiveTab('settings')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'settings' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
-            <Settings className="w-5 h-5" />
-          </button>
-
-          {/* ডিভাইডার */}
+          <button onClick={() => setActiveTab('profile')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'profile' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}><User className="w-5 h-5" /></button>
+          <button onClick={() => setActiveTab('videos')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'videos' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}><Film className="w-5 h-5" /></button>
+          <button onClick={() => setActiveTab('designs')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'designs' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}><Palette className="w-5 h-5" /></button>
+          <button onClick={() => setActiveTab('settings')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'settings' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}><Settings className="w-5 h-5" /></button>
           <div className="w-[1px] h-8 bg-slate-700/50 mx-1"></div>
-
-          {/* লগআউট বাটন (ডানপাশে ফিক্সড) */}
-          <button onClick={() => setLogoutModal(true)} className="flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer text-red-500/80 hover:text-red-400 hover:scale-110">
-            <LogOut className="w-5 h-5" />
-          </button>
+          <button onClick={() => setLogoutModal(true)} className="flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer text-red-500/80 hover:text-red-400 hover:scale-110"><LogOut className="w-5 h-5" /></button>
         </nav>
       </main>
     </div>

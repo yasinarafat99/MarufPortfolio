@@ -18,16 +18,11 @@ export default function AdminProfile() {
 
   const isDirty = JSON.stringify(profileData) !== JSON.stringify(originalProfileData);
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
+  useEffect(() => { fetchProfile(); }, []);
 
   const fetchProfile = async () => {
     const { data } = await supabase.from('profiles').select('*').maybeSingle();
-    if (data) {
-      setProfileData(data);
-      setOriginalProfileData(data); 
-    }
+    if (data) { setProfileData(data); setOriginalProfileData(data); }
   };
 
   const showToast = (msg: string, type: 'success' | 'error' = 'success') => {
@@ -47,21 +42,15 @@ export default function AdminProfile() {
     try {
       const oldPath = getStoragePathFromUrl(profileData.avatar_url);
       if (oldPath) await supabase.storage.from('portfolio-assets').remove([oldPath]);
-
       const { data: existingData } = await supabase.from('profiles').select('id').maybeSingle();
-      if (existingData) {
-        await supabase.from('profiles').update({ avatar_url: '' }).eq('id', existingData.id);
-      }
+      if (existingData) await supabase.from('profiles').update({ avatar_url: '' }).eq('id', existingData.id);
       
       const updatedData = { ...profileData, avatar_url: '' };
-      setProfileData(updatedData);
-      setOriginalProfileData(updatedData); 
+      setProfileData(updatedData); setOriginalProfileData(updatedData); 
       showToast('ছবি সফলভাবে মুছে ফেলা হয়েছে!', 'success');
     } catch (error: any) {
       showToast('ছবি মুছতে সমস্যা হয়েছে: ' + error.message, 'error');
-    } finally {
-      setIsUploadingImage(false);
-    }
+    } finally { setIsUploadingImage(false); }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,22 +74,14 @@ export default function AdminProfile() {
       const newUrl = data.publicUrl;
 
       const { data: existingData } = await supabase.from('profiles').select('id').maybeSingle();
-      if (existingData) {
-        await supabase.from('profiles').update({ avatar_url: newUrl }).eq('id', existingData.id);
-      } else {
-        await supabase.from('profiles').insert([{ ...profileData, avatar_url: newUrl }]);
-      }
+      if (existingData) await supabase.from('profiles').update({ avatar_url: newUrl }).eq('id', existingData.id);
+      else await supabase.from('profiles').insert([{ ...profileData, avatar_url: newUrl }]);
       
       const updatedData = { ...profileData, avatar_url: newUrl };
-      setProfileData(updatedData);
-      setOriginalProfileData(updatedData); 
+      setProfileData(updatedData); setOriginalProfileData(updatedData); 
       showToast('নতুন ছবি সফলভাবে সেট করা হয়েছে!', 'success');
-    } catch (error: any) {
-      showToast('ছবি আপলোড করতে সমস্যা হয়েছে: ' + error.message, 'error');
-    } finally {
-      setIsUploadingImage(false);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    }
+    } catch (error: any) { showToast('ছবি আপলোড করতে সমস্যা হয়েছে: ' + error.message, 'error');
+    } finally { setIsUploadingImage(false); if (fileInputRef.current) fileInputRef.current.value = ''; }
   };
 
   const handleSaveProfile = async () => {
@@ -108,16 +89,11 @@ export default function AdminProfile() {
     setIsSaving(true);
     try {
       const { data: existingData } = await supabase.from('profiles').select('id').maybeSingle();
-      if (existingData) {
-        await supabase.from('profiles').update(profileData).eq('id', existingData.id);
-      } else {
-        await supabase.from('profiles').insert([profileData]);
-      }
+      if (existingData) await supabase.from('profiles').update(profileData).eq('id', existingData.id);
+      else await supabase.from('profiles').insert([profileData]);
       setOriginalProfileData(profileData); 
       showToast('প্রোফাইল সফলভাবে আপডেট হয়েছে!', 'success');
-    } catch (err: any) {
-      showToast('সেভ করতে সমস্যা হয়েছে!', 'error');
-    }
+    } catch (err: any) { showToast('সেভ করতে সমস্যা হয়েছে!', 'error'); }
     setIsSaving(false);
   };
 
@@ -126,8 +102,8 @@ export default function AdminProfile() {
   };
 
   return (
-    <>
-      {/* টোস্ট নোটিফিকেশন */}
+    <div className="relative">
+      {/* টোস্ট ও মোডাল */}
       <AnimatePresence>
         {toast.show && (
           <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 50 }} className="fixed top-20 md:top-8 right-4 md:right-8 z-[100]">
@@ -139,14 +115,11 @@ export default function AdminProfile() {
         )}
       </AnimatePresence>
 
-      {/* ডিলিট মোডাল */}
       <AnimatePresence>
         {deleteModal && (
           <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-[#050608]/80 backdrop-blur-sm">
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-sm bg-[#0a0c10] border border-amber-500/20 rounded-3xl p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-              <div className="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center mb-5 mx-auto border border-red-500/20">
-                <AlertTriangle className="w-6 h-6 text-red-400" />
-              </div>
+              <div className="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center mb-5 mx-auto border border-red-500/20"><AlertTriangle className="w-6 h-6 text-red-400" /></div>
               <h3 className="text-xl font-black text-white text-center mb-2">ছবি মুছে ফেলবেন?</h3>
               <p className="text-slate-400 text-sm text-center mb-8">এই হিরো ইমেজটি পাকাপাকিভাবে স্টোরেজ থেকে ডিলিট হয়ে যাবে।</p>
               <div className="flex gap-3">
@@ -158,8 +131,8 @@ export default function AdminProfile() {
         )}
       </AnimatePresence>
 
-      {/* স্টিকি হেডার */}
-      <div className="sticky top-0 z-40 bg-[#050608]/95 backdrop-blur-xl border-b border-amber-500/20 py-4 -mx-4 px-4 sm:-mx-8 sm:px-8 mb-6 flex items-center justify-between gap-4 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)]">
+      {/* স্টিকি হেডার - এখন এটি একদম সলিড এবং টপে ফিক্সড থাকবে */}
+      <div className="sticky top-0 z-[60] bg-[#050608] border-b border-amber-500/20 px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex items-center justify-between gap-4 shadow-xl">
         <div>
           <h2 className="text-lg sm:text-2xl font-black text-white leading-tight">প্রোফাইল সেটিংস</h2>
           <p className="text-slate-400 mt-0.5 sm:mt-1 text-[10px] sm:text-sm hidden xs:block">আপনার পোর্টফোলিওর মূল তথ্যগুলো আপডেট করুন</p>
@@ -170,9 +143,8 @@ export default function AdminProfile() {
         </button>
       </div>
 
-      {/* মেইন কন্টেন্ট */}
-      <div className="space-y-6">
-        {/* ছবি আপলোড */}
+      {/* মেইন কন্টেন্ট - এখানে আলাদা করে প্যাডিং দেওয়া হয়েছে */}
+      <div className="space-y-6 p-4 sm:p-6 lg:p-8 pt-6">
         <div className="bg-[#0a0c10] border border-amber-500/20 rounded-2xl p-5 sm:p-7 shadow-lg">
           <h3 className="text-amber-400 font-bold border-b border-amber-500/20 pb-2 mb-5">আপনার ছবি (হিরো ইমেজ)</h3>
           <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -196,7 +168,6 @@ export default function AdminProfile() {
           </div>
         </div>
 
-        {/* প্রাথমিক তথ্য */}
         <div className="bg-[#0a0c10] border border-amber-500/20 rounded-2xl p-5 sm:p-7 shadow-lg">
           <h3 className="text-amber-400 font-bold border-b border-amber-500/20 pb-2 mb-4">প্রাথমিক তথ্য</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -207,7 +178,6 @@ export default function AdminProfile() {
           </div>
         </div>
 
-        {/* যোগাযোগ ও সোশ্যাল মিডিয়া */}
         <div className="bg-[#0a0c10] border border-amber-500/20 rounded-2xl p-5 sm:p-7 shadow-lg">
           <h3 className="text-amber-400 font-bold border-b border-amber-500/20 pb-2 mb-4">যোগাযোগ ও সোশ্যাল মিডিয়া</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -221,6 +191,6 @@ export default function AdminProfile() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
