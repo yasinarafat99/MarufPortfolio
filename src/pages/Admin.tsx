@@ -1,13 +1,14 @@
 // src/pages/Admin.tsx
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { Lock, Mail, Loader2, LogOut, User, Film, Palette, Settings } from 'lucide-react';
+import { Lock, Mail, Loader2, LogOut, User, Film, Palette, Settings, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 import AdminProfile from '../components/AdminProfile';
 import AdminVideos from '../components/AdminVideos';
 import AdminDesigns from '../components/AdminDesigns';
 import AdminSettings from '../components/AdminSettings';
+import AdminEducation from '../components/AdminEducation';
 
 export default function Admin() {
   const [session, setSession] = useState<any>(null);
@@ -84,6 +85,9 @@ export default function Admin() {
             <button onClick={() => setActiveTab('profile')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer ${activeTab === 'profile' ? 'bg-amber-500/15 text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}><User className="w-4 h-4" /><span>প্রোফাইল সেটিংস</span></button>
             <button onClick={() => setActiveTab('videos')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer ${activeTab === 'videos' ? 'bg-amber-500/15 text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}><Film className="w-4 h-4" /><span>ভিডিও প্রজেক্ট</span></button>
             <button onClick={() => setActiveTab('designs')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer ${activeTab === 'designs' ? 'bg-amber-500/15 text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}><Palette className="w-4 h-4" /><span>গ্রাফিক ডিজাইন</span></button>
+
+            <button onClick={() => setActiveTab('education')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer ${activeTab === 'education' ? 'bg-amber-500/15 text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}><BookOpen className="w-4 h-4" /><span>এডুকেশন ও ট্রেনিং</span></button>
+
             <button onClick={() => setActiveTab('settings')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer ${activeTab === 'settings' ? 'bg-amber-500/15 text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}><Settings className="w-4 h-4" /><span>ওয়েবসাইট সেটিংস</span></button>
           </nav>
         </div>
@@ -122,6 +126,12 @@ export default function Admin() {
               </motion.div>
             </div>
 
+            <div className={activeTab === 'education' ? 'block' : 'hidden'}>
+              <motion.div initial={{ opacity: 0, y: 15 }} animate={activeTab === 'education' ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }} transition={{ duration: 0.4, ease: "easeOut" }}>
+                <AdminEducation />
+              </motion.div>
+            </div>
+
             <div className={activeTab === 'settings' ? 'block p-4 sm:p-6 lg:p-8 pt-6' : 'hidden'}>
               <motion.div initial={{ opacity: 0, y: 15 }} animate={activeTab === 'settings' ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }} transition={{ duration: 0.4, ease: "easeOut" }}>
                 <AdminSettings />
@@ -136,6 +146,9 @@ export default function Admin() {
           <button onClick={() => setActiveTab('profile')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'profile' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}><User className="w-5 h-5" /></button>
           <button onClick={() => setActiveTab('videos')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'videos' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}><Film className="w-5 h-5" /></button>
           <button onClick={() => setActiveTab('designs')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'designs' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}><Palette className="w-5 h-5" /></button>
+
+          <button onClick={() => setActiveTab('education')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'education' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}><BookOpen className="w-5 h-5" /></button>
+
           <button onClick={() => setActiveTab('settings')} className={`flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer ${activeTab === 'settings' ? 'text-amber-400 scale-110 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}><Settings className="w-5 h-5" /></button>
           <div className="w-[1px] h-8 bg-slate-700/50 mx-1"></div>
           <button onClick={() => setLogoutModal(true)} className="flex flex-col items-center gap-1 p-2 transition-transform duration-300 cursor-pointer text-red-500/80 hover:text-red-400 hover:scale-110"><LogOut className="w-5 h-5" /></button>

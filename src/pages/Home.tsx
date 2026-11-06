@@ -6,7 +6,8 @@ import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import PortfolioSection from '../components/Portfolio';
 import Expertise from '../components/Expertise';
-import Education from '../components/Education';
+// import Education from '../components/Education';
+import Education, { AcademicItem, TrainingData } from '../components/Education';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
@@ -28,6 +29,11 @@ export default function Home() {
     }
     return saved;
   });
+
+  // এডুকেশন এবং ট্রেনিংয়ের ডেটা রাখার জন্য নতুন স্টেট
+  const [academics, setAcademics] = useState<AcademicItem[]>([]);
+  const [trainings, setTrainings] = useState<TrainingData[]>([]);
+
 
   const toggleLang = () => {
     const nextLang = lang === 'en' ? 'bn' : 'en';
@@ -55,6 +61,28 @@ export default function Home() {
   useEffect(() => {
     document.documentElement.lang = lang;
   }, [lang]);
+
+
+
+  useEffect(() => {
+    const fetchEducationData = async () => {
+      try {
+        const [academicRes, trainingRes] = await Promise.all([
+            supabase.from('academic_items').select('*').order('id', { ascending: true }),
+            
+            // এখানে আগের limit(1).maybeSingle() মুছে দিয়ে শুধু order ব্যবহার করতে হবে
+            supabase.from('training_data').select('*').order('id', { ascending: true }) 
+          ]);
+
+        if (academicRes.data) setAcademics(academicRes.data);
+        if (trainingRes.data) setTrainings(trainingRes.data);
+      } catch (error) {
+        console.error("Education data fetch error:", error);
+      }
+    };
+
+    fetchEducationData();
+  }, []); // শুধু প্রথমবার লোড হওয়ার সময় কল হবে
 
   // ডাইনামিক ডেটা লোড হওয়ার সময় প্রফেশনাল স্কেলিটন লোডার দেখাবে
   if (isLoading) {
@@ -105,7 +133,7 @@ export default function Home() {
         <Hero lang={lang} avatarUrl={dbProfile?.avatar_url || ''} profile={dbProfile || profile} />
         <PortfolioSection lang={lang} />
         <Expertise lang={lang} />
-        <Education lang={lang} />
+        <Education lang={lang} academics={academics} trainings={trainings}/>
         <Contact lang={lang} profile={profile} />
       </main>
 

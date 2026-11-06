@@ -13,8 +13,8 @@ interface HeroProps {
 export default function Hero({ lang = 'en', avatarUrl, profile }: HeroProps) {
   const [cvUrl, setCvUrl] = useState<string>('');
   
-  const firstName = profile.nameEn?.split(' ')[0] || 'Graphic';
-  const lastName = profile.nameEn?.split(' ')[1] || 'Designer';
+  const firstName = profile.nameEn?.split(' ')[0] || 'VIDEO EDITOR &';
+  const lastName = profile.nameEn?.split(' ')[1] || ' VISUAL DESIGNER';
 
   const heroImage = avatarUrl || '/noman-hero.png';
 
@@ -203,7 +203,7 @@ export default function Hero({ lang = 'en', avatarUrl, profile }: HeroProps) {
               <span className="text-amber-400 font-bold tracking-wider">{lang === 'bn' ? 'ভিডিও এডিটর' : 'Video Editor'}</span>
             </div>
 
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.93] uppercase select-none">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl font-black tracking-tight leading-[0.93] uppercase select-none">
               <span className="block text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">{firstName}</span>
               <span className="block bg-gradient-to-r from-[#ffd700] via-[#f59e0b] to-[#d97706] bg-clip-text text-transparent drop-shadow-[0_4px_35px_rgba(245,158,11,0.55)]">{lastName}</span>
             </h1>
