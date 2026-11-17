@@ -53,7 +53,7 @@ async function generateCvPdf() {
   let y = pageHeight - 48;
 
   // Name
-  page1.drawText('Noman Hossain', {
+  page1.drawText('Designer Maruf', {
     x: marginX,
     y: y,
     size: 26,

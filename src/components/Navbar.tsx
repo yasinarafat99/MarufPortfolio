@@ -111,7 +111,6 @@ export default function Navbar({ lang = 'en', onToggleLang, profile }: NavbarPro
             <a href={cvUrl || '#'} target={cvUrl ? "_blank" : "_self"} rel="noopener noreferrer" className={`px-3.5 py-1.5 text-xs sm:text-sm font-semibold rounded-full transition-all duration-200 flex items-center gap-1.5 ml-1 shadow-sm hover:scale-105 active:scale-95 ${cvUrl ? 'text-amber-400 hover:text-black hover:bg-gradient-to-r hover:from-amber-400 hover:to-yellow-400 border border-amber-500/40 hover:border-amber-300 cursor-pointer' : 'text-slate-500 border border-slate-700 bg-slate-900/50 cursor-not-allowed'}`} title={lang === 'bn' ? 'সিভি দেখুন' : 'View CV'}>
               <Eye className="w-3.5 h-3.5" />
               <span>{lang === 'bn' ? 'সিভি দেখুন' : 'View CV'}</span>
-              {cvUrl && <ExternalLink className="w-3 h-3 opacity-50 ml-0.5" />}
             </a>
           </nav>
 

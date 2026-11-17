@@ -20,7 +20,7 @@ export default function BrandLogo({ size = 'md', className = '' }: BrandLogoProp
       {/* Profile Photo as Logo (Full round shape) */}
       <img
         src="/noman-hero.png"
-        alt="Noman Hossain"
+        alt="Designer Maruf"
         className="w-full h-full object-cover object-top relative z-10 transition-transform duration-300 group-hover:scale-110"
         loading="eager"
         onError={(e) => {

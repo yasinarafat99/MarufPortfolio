@@ -1,6 +1,8 @@
-import { ArrowUp, Download, Sparkles, Youtube, Linkedin } from 'lucide-react';
+import { ArrowUp, Eye, Sparkles, Youtube, Linkedin } from 'lucide-react';
 import BrandLogo from './BrandLogo';
 import { profileData } from '../data/portfolioData';
+import { useState, useEffect } from 'react';
+  import { supabase } from '../lib/supabase';
 import { downloadCv } from '../utils/downloadCv';
 
 // Custom Facebook and Instagram icons for footer
@@ -29,6 +31,17 @@ export default function Footer({ lang = 'en', profile }: FooterProps) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const [cvUrl, setCvUrl] = useState<string>('');
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const { data } = await supabase.from('settings').select('cv_url').eq('id', 1).single();
+      if (data && data.cv_url) setCvUrl(data.cv_url);
+    };
+    fetchSettings();
+  }, []);
+
 
   return (
     <footer className="bg-[#030406]/95 backdrop-blur-md border-t border-amber-500/25 py-12 text-slate-400 text-xs relative z-20">
@@ -65,13 +78,25 @@ export default function Footer({ lang = 'en', profile }: FooterProps) {
               {lang === 'bn' ? 'যোগাযোগ' : 'Contact'}
             </a>
 
-            <button
+            {/* <button
               onClick={downloadCv}
               className="inline-flex items-center gap-1.5 text-amber-400 hover:text-amber-200 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
-            >
+              >
               <Download className="w-3.5 h-3.5 text-amber-400" />
               <span>{lang === 'bn' ? 'সিভি ডাউনলোড' : 'Download CV'}</span>
-            </button>
+            </button> */}
+
+              <a 
+              href={cvUrl || '#'} 
+              target={cvUrl ? "_blank" : "_self"} 
+              rel="noopener noreferrer" 
+              className="inline-flex items-center gap-1.5 text-amber-400 hover:text-amber-200 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+              >
+              <Eye className="w-3.5 h-3.5 text-amber-400" />
+              <span>{lang === 'bn' ? 'সিভি দেখুন' : 'View CV'}</span>
+            </a>
+
+
           </div>
 
           {/* Social Icons & Back to Top */}

@@ -179,7 +179,7 @@ export default function Hero({ lang = 'en', avatarUrl, profile }: HeroProps) {
                 className={`w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm tracking-wide shadow-md active:scale-95 transition-all duration-300 cursor-pointer ${cvUrl ? 'bg-[#0a0c12]/95 hover:bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-[#0a0c12]/50 text-slate-500 border border-slate-700 cursor-not-allowed'}`}
               >
                 <Eye className="w-4 h-4" />
-                <span>{lang === 'bn' ? 'সিভি দেখুন (PDF)' : 'View CV (PDF)'}</span>
+                <span>{lang === 'bn' ? 'সিভি দেখুন' : 'View CV'}</span>
               </a>
             </div>
           </motion.div>
